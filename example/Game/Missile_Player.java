@@ -10,7 +10,7 @@ public class Missile_Player extends Missile{
         this.setPosition(x, y);
     }
     public void Update(){ //플레이어의 미사일은 플레이어의 위치에서 - 되어 위로 올라간다.
-        m_y -= 2;
+        m_y -= 20;
 
         if (m_y < 50) state = STATE_OUT;
 

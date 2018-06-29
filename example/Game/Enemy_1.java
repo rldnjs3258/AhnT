@@ -5,8 +5,8 @@ import android.graphics.Rect;
 import com.example.gameframework.AppManager;
 import com.example.gameframework.R;
 
+//Enemy_1 클래스
 public class Enemy_1 extends Enemy {
-    Rect m_BoundBox = new Rect();
     public Enemy_1(){
         super(AppManager.getInstance().getBitmap(R.drawable.enemy1));
         this.initSpriteData(getBitmapWidth()/6,getBitmapHeight(), 3, 6);
@@ -16,10 +16,9 @@ public class Enemy_1 extends Enemy {
         movetype = Enemy.MOVE_PATTERN_1;
     }
 
-    @Override
     public void Update(long GameTime){
         super.Update(GameTime);
 
-        m_BoundBox.set(m_x, m_y, m_x + 62, m_y + 104);
+        m_BoundBox.set(m_x, m_y, m_x + 62, m_y + 104); //Enemy_1의 렉트 정보. (충돌에 필요)
     }
 }

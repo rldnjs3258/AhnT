@@ -13,6 +13,9 @@ public class SpriteAnimation extends GraphicObject{
     private int m_spriteWidth;
     private int m_spriteHeight;
     private long m_frameTimer;
+    protected boolean mbReplay = true;
+    protected boolean mbEnd = false;
+
     public int getBitmapWidth() {
         return (int)m_bitmap.getWidth();
     } //사진을 프레임에 맞게 자른다.
@@ -46,15 +49,24 @@ public class SpriteAnimation extends GraphicObject{
 
     //프레임의 너비만큼을 계속 순환하게 업데이트 해준다.
     public void Update(long gameTime){
-        if (gameTime > m_frameTimer + m_fps){ //gameTime은 밀리세컨드로 GameView에서 설정했다.
-            m_frameTimer = gameTime;
-            m_currentFrame += 1; //프레임의 수가 일정 시간마다 증가한다.
-            if (m_currentFrame >= m_iFrames)    m_currentFrame = 0; //프레임이 계속 순환하게 일정 프레임이 되면 다시 0이 되게 했다.
+        if (!mbEnd) {
+            if (gameTime > m_frameTimer + m_fps) { //gameTime은 밀리세컨드로 GameView에서 설정했다.
+                m_frameTimer = gameTime;
+                m_currentFrame += 1; //프레임의 수가 일정 시간마다 증가한다.
+                if (m_currentFrame >= m_iFrames) {
+                    if (mbReplay) //반복되는 애니메이션
+                        m_currentFrame = 0;//프레임이 계속 순환하게 일정 프레임이 되면 다시 0이 되게 했다. (반복)
+                    else //반복 안되고 종료되는 애니메이션
+                        mbEnd = true;
+                }
+            }
         }
         m_rect.left = m_currentFrame * m_spriteWidth;
         m_rect.right = m_rect.left + m_spriteWidth;
-
     }
 
+    public boolean getAnimationEnd(){ //순환하지 않는 애니메이션일 경우 메모리/리스트에서도 이미지가 없어지게 함.
+        return mbEnd;
+    }
 
 }
