@@ -1,20 +1,24 @@
 package com.example.Game;
 
-import com.example.gameframework.AppManager;
-import com.example.gameframework.R;
+import android.graphics.Rect;
 
+import com.example.android_data_framework.R;
+import com.example.gameframework.AppManager;
+
+
+//Enemy_3 클래스
 public class Enemy_3 extends Enemy {
     public Enemy_3(){
         super(AppManager.getInstance().getBitmap(R.drawable.enemy3));
-        this.initSpriteData(getBitmapWidth()/6,getBitmapHeight(), 3, 6);
-        hp = 10;
+        this.initSpriteData(getBitmapWidth()/6,getBitmapHeight(), 10, 6);
+        hp = 30;
         speed = 2.5f;
-
+        point=30;
         movetype = Enemy.MOVE_PATTERN_3;
     }
 
     public void Update(long GameTime){
         super.Update(GameTime);
-        m_BoundBox.set(m_x, m_y, m_x + 62, m_y + 104);
+        m_BoundBox.set(m_x, m_y, m_x + this.getM_spriteWidth(), m_y +this.getM_spriteHeight());
     }
 }

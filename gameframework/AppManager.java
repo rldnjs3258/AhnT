@@ -11,7 +11,7 @@ import com.example.Game.GameState;
 public class AppManager {
     private GameView m_gameView; //메인 게임 뷰
     private Resources m_resources; //메인 게임 뷰의 리소스
-    public GameState m_gameState;
+    public GameState m_gameState; //게임 상황
 
     void setGameView (GameView _gameView){
         m_gameView = _gameView;

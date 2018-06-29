@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import com.example.android_data_framework.R;
+
 //Intro의 상태이다.
 //IState 클래스를 상속받는다.
 public class IntroState implements IState {

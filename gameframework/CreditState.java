@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import com.example.android_data_framework.R;
+
 //Credit 상태이다.
 //IState의 클래스를 상속 받는다.
 public class CreditState implements IState {
