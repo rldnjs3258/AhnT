@@ -10,7 +10,7 @@ import com.example.gameframework.SpriteAnimation;
 public class EffectExplosion extends SpriteAnimation{
     public EffectExplosion (int x, int y){
         super(AppManager.getInstance().getBitmap(R.drawable.explosion)); //폭발을 그린다.
-        this.initSpriteData(getBitmapWidth()/6, getBitmapHeight(), 3, 6); //이미지를 나눈다.
+        this.initSpriteData(getBitmapWidth()/6, getBitmapHeight(), 10, 6); //이미지를 나눈다.
         m_x = x;
         m_y = y;
 

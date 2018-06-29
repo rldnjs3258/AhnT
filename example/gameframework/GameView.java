@@ -11,6 +11,8 @@ import android.view.SurfaceView;
 
 import com.example.Game.GameState;
 
+//앱 매니저는 정보를 모아놓는 곳인데 이곳에서 모두 '유일'한 인스턴스만 만든다.
+//이것은 set으로 만들어놓고 get으로 불러온다.
 public class GameView extends SurfaceView implements SurfaceHolder.Callback { //view를 surface 뷰로 만들어준다.
     //surface 뷰는 화면을 백그라운드에서 처리할 수 있게 해준다. (화면에 대한 빠른 그래픽 처리를 할 수 있다.)
     //백그라운드에서 처리한 후 콜백으로 화면에 출력한다.

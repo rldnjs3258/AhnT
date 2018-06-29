@@ -19,7 +19,7 @@ public class Item extends SpriteAnimation {
     public void Update(long gameTime){
         super.Update(gameTime);
         m_y += 2;
-        if (m_y > 350) bOut = true;
+        if (m_y > 800) bOut = true;
         m_BoundBox .set ( m_x, m_y, m_x + 51, m_y + 51 );
     }
 

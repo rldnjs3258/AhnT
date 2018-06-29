@@ -13,6 +13,7 @@ public class ItemAddScore extends Item {
 
     @Override
     void GetItem( ) {
-        m_score += 100;
+        AppManager.getInstance().m_gameState.m_score += 100;
+        //m_score += 100;
     }
 }

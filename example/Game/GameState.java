@@ -20,6 +20,7 @@ import java.util.logging.LogRecord;
 //IState의 클래스를 상속 받는다.
 public class GameState implements IState{
     Random randEnem = new Random();
+    Random randTimeItem = new Random();
     private BackGround m_background;
     private Player m_player;
     //private Enemy_1 enem = new Enemy_1();
@@ -32,6 +33,7 @@ public class GameState implements IState{
     long LastRegenEnemy = System.currentTimeMillis();
     long CurrentTime = System.currentTimeMillis() + 30000;
     long LastEnemy = System.currentTimeMillis();
+    long LastTimeItem = System.currentTimeMillis();
 
     public int m_score = 0;
 
@@ -156,6 +158,10 @@ public class GameState implements IState{
             LastShoot = System.currentTimeMillis();
             //미사일 발사 로직
             m_pmslist.add(new Missile_Player(m_player.getX()-10,m_player.getY()-100));
+        }
+        if (System.currentTimeMillis() - LastTimeItem >= (5000+randTimeItem.nextInt(10000))){ //5~15초마다 아이템 약이 뜬다.
+            LastTimeItem = System.currentTimeMillis();
+            m_itemlist.add(new ItemAddTime(randTimeItem.nextInt(600), randTimeItem.nextInt(800)));
         }
     }
 
