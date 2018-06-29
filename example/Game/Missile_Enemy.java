@@ -1,7 +1,7 @@
 package com.example.Game;
 
 import com.example.gameframework.AppManager;
-import com.example.R;
+import com.example.gameframework.R;
 
 //적의 미사일이다.
 public class Missile_Enemy extends Missile{

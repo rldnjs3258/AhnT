@@ -3,7 +3,7 @@ package com.example.Game;
 import android.graphics.Rect;
 
 import com.example.gameframework.AppManager;
-import com.example.R;
+import com.example.gameframework.R;
 
 //Enemy_2 클래스
 public class Enemy_2 extends Enemy {

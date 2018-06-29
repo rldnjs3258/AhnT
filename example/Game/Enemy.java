@@ -6,6 +6,8 @@ import android.graphics.Rect;
 import com.example.gameframework.AppManager;
 import com.example.gameframework.SpriteAnimation;
 
+import java.util.Random;
+
 //적을 생성한다.
 public class Enemy extends SpriteAnimation{
     public int hp; //체력
@@ -14,6 +16,8 @@ public class Enemy extends SpriteAnimation{
     public static final int MOVE_PATTERN_1 = 0; //패턴1
     public static final int MOVE_PATTERN_2 = 1; //패턴2
     public static final int MOVE_PATTERN_3 = 2; //패턴3
+    public static final int MOVE_PATTERN_4 = 3; //패턴4
+    public static final int MOVE_PATTERN_5 = 4; //패턴5
 
     protected int movetype;
     public static final int STATE_NORMAL = 0; //상태를 위한 변수
@@ -21,6 +25,8 @@ public class Enemy extends SpriteAnimation{
     public int state = STATE_NORMAL; //기본 상태는 NORMAL
     Rect m_BoundBox = new Rect();
     long LastShoot = System.currentTimeMillis();
+
+    Random randMove = new Random();
 
     public Enemy(Bitmap bitmap){
         super(bitmap);
@@ -30,18 +36,34 @@ public class Enemy extends SpriteAnimation{
     void Move(){
         if (movetype == MOVE_PATTERN_1){ //패턴 1
             if (m_y <= 200) m_y += speed; //중간지점까지 기본 속도
-            else            m_y += speed*2; //중간지점 이후 빠른 속도
+            else            m_y += speed*randMove.nextInt(5); //중간지점 이후 빠른 속도
             if (m_y > 1000)  state = STATE_OUT; //좌표값이 화면보다 크면 STATE_OUT
         }
         else if (movetype == MOVE_PATTERN_2){ //패턴 2
             if (m_y <= 200) m_y += speed; //중간지점까지 기본 속도
             else{ //중간지점 이후 대각선 이동
-                m_x += speed;
-                m_y += speed;
+                m_x +=(speed/2); //대각선은 랜덤으로
+                m_y +=speed;
             }
             if (m_y > 1000)  state = STATE_OUT; //좌표값이 화면보다 크면 STATE_OUT
         }
         else if (movetype == MOVE_PATTERN_3){ //패턴 3
+            if (m_y <= 200) m_y += speed; //중간지점까지 기본 속도
+            else{ //중간지점 이후 대각선 이동
+                m_x +=speed; //대각선은 랜덤으로
+                m_y +=speed;
+            }
+            if (m_y > 1000)  state = STATE_OUT; //좌표값이 화면보다 크면 STATE_OUT
+        }
+        else if (movetype == MOVE_PATTERN_4){ //패턴 4
+            if (m_y<=200) m_y+=speed; //중간지점까지 기본 속도
+            else{ //중간지점 이후 대각선 이동
+                m_x-= (speed/2);
+                m_y += speed;
+            }
+            if (m_y > 1000)  state = STATE_OUT; //좌표값이 화면보다 크면 STATE_OUT
+        }
+        else if (movetype == MOVE_PATTERN_5){ //패턴 5
             if (m_y<=200) m_y+=speed; //중간지점까지 기본 속도
             else{ //중간지점 이후 대각선 이동
                 m_x-= speed;

@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import com.example.gameframework.AppManager;
 import com.example.gameframework.GraphicObject;
 import com.example.gameframework.IState;
-import com.example.R;
+import com.example.gameframework.R;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,9 +27,13 @@ public class GameState implements IState{
     ArrayList<Missile_Player> m_pmslist = new ArrayList<Missile_Player>(); //플레이어의 미사일
     ArrayList<Missile> m_enemmslist = new ArrayList<Missile>(); //적의 미사일
     ArrayList<EffectExplosion> m_explist = new ArrayList<EffectExplosion>(); //폭발 이미지 배열
+    ArrayList<Item> m_itemlist = new ArrayList<Item>(); //아이템 배열
     long LastShoot = System.currentTimeMillis();
-
     long LastRegenEnemy = System.currentTimeMillis();
+    long CurrentTime = System.currentTimeMillis() + 30000;
+    long LastEnemy = System.currentTimeMillis();
+
+    public int m_score = 0;
 
     public void MakeEnemy(){
         if (System.currentTimeMillis() - LastRegenEnemy >= 1000){ //마지막 생성된 적 이후 딜레이 후 생성되게 한다.
@@ -41,10 +45,13 @@ public class GameState implements IState{
             else if (enemtype == 1) enem = new Enemy_2();
             else if (enemtype == 2) enem = new Enemy_3();
 
-            enem.setPosition(randEnem.nextInt(280), -60); //랜덤 포지션에서 나오게 한다.
-            enem.movetype = randEnem.nextInt(3); //랜덤하게 이동되게 한다.
+            enem.setPosition(randEnem.nextInt(600), -60); //랜덤 포지션에서 나오게 한다.
+            enem.movetype = randEnem.nextInt(5); //랜덤하게 이동되게 한다.
 
-            m_enemylist.add(enem); //리스트에 적을 추가한다.
+            if (System.currentTimeMillis() - LastEnemy >= 1000){ //시스템 시간 밀리초 마다 실행되게 하기
+                LastEnemy = System.currentTimeMillis();
+                m_enemylist.add(enem); //리스트에 적을 추가한다.
+            }
         }
 
     }
@@ -80,15 +87,36 @@ public class GameState implements IState{
         for (EffectExplosion exp : m_explist){ //폭발 배열을 그린다.
             exp.Draw(canvas);
         }
+        for (Item item : m_itemlist){ //아이템 배열을 그린다.
+            item.Draw(canvas);
+        }
         m_player.Draw(canvas); //플레이어 그리기
         //m_keypad.Draw(canvas);
 
         //글씨를 '그려'준다.
         //페인트를 생성하는 이유는 캔버스 위에 이미지가 있는데, 글씨는 캔버스 위에 그려져서 안보일 수 있기 때문에 새로 생성한다.
         Paint p = new Paint();
-        p.setTextSize(100); //글씨 크기
+        p.setTextSize(50); //글씨 크기
         p.setColor(Color.BLACK); //글씨 색
-        canvas.drawText("남은 목숨:"+String.valueOf(m_player.getLife()), 0, 100, p);
+        canvas.drawText("남은 목숨:"+String.valueOf(m_player.getLife()), 20, 100, p);
+
+        //시간을 '그려' 준다.
+        Paint t = new Paint();
+        t.setTextSize(50); //글씨 크기
+        if ((CurrentTime - System.currentTimeMillis())/1000 < 10) {
+            t.setColor(Color.RED);
+        }
+        else {
+            t.setColor(Color.BLACK);
+        }
+        canvas.drawText("TIME "+String.valueOf((CurrentTime - System.currentTimeMillis())/1000 ), 430, 100, t);
+        if ((CurrentTime - System.currentTimeMillis())/1000 < 0){
+            System.exit(0);
+            //state도 변화주기
+        }
+
+        //점수를 그려준다.
+        canvas.drawText ("점수 : " + String.valueOf( m_score ), 0, 40, p);
     }
 
     //Update는 프레임마다 업데이트해서 그림에 움직임을 주는 것이다.
@@ -117,8 +145,18 @@ public class GameState implements IState{
             exp.Update(GameTime);
             if (exp.getAnimationEnd()) m_explist.remove(i);
         }
+        for (int i = m_itemlist.size() -1; i>=0; i--){ //리스트 안의 모든 아이템을 이용
+            Item item = m_itemlist.get(i);
+            item.Update(GameTime);
+            if (item.bOut == true) m_itemlist.remove(i);
+        }
         MakeEnemy(); //미사일, 적군의 위치가 매번 바뀌므로 매번 체크한다.
         CheckCollision(); //Update 할 때마다 CheckCollision을 해서 매번 체크한다.
+        if (System.currentTimeMillis() - LastShoot >= 1000){ //시스템 시간 밀리초 마다 실행되게 하기
+            LastShoot = System.currentTimeMillis();
+            //미사일 발사 로직
+            m_pmslist.add(new Missile_Player(m_player.getX()-10,m_player.getY()-100));
+        }
     }
 
     //키 입력에 따른 플레이어 이동
@@ -152,11 +190,6 @@ public class GameState implements IState{
 
             m_player.setPosition(x-100, y-100); //마우스의 위치를 마우스위치로 한다.
 
-            if (System.currentTimeMillis() - LastShoot >= 1000){ //시스템 시간 밀리초 마다 실행되게 하기
-                LastShoot = System.currentTimeMillis();
-                //미사일 발사 로직
-                m_pmslist.add(new Missile_Player(x-10,y-100));
-            }
         }
         return true;
     }
@@ -181,6 +214,7 @@ public class GameState implements IState{
                 if(CollisionManager.CheckBoxToBox(m_pmslist.get(i).m_BoundBox, //플레이어 미사일 리스트와
                         m_enemylist.get(j).m_BoundBox)){ //적 리스트를 비교한다.
                     m_explist.add(new EffectExplosion(m_enemylist.get(j).getX(), m_enemylist.get(j).getY())); //적의 위치에 폭발 리스트를 추가.
+                    m_itemlist .add( new ItemAddScore( m_enemylist .get(j).getX( ), m_enemylist .get(j).getY( )));
                     m_pmslist.remove(i); //트루면 미사일을 지운다.
                     m_enemylist.remove(j); //트루면 적을 지운다.
                     return;
@@ -199,9 +233,18 @@ public class GameState implements IState{
                 return;
             }
         }
-        }
 
-    public GameState(){
+        //아이템이랑 플레이어
+        for (int i = m_itemlist.size()-1; i>=0; i--){
+            if (CollisionManager.CheckBoxToBox( m_player.m_BoundBox,
+                    m_itemlist .get(i). m_BoundBox)) {
+                m_itemlist .get(i).GetItem( );
+                m_itemlist .remove(i);
+            }
+        }
+    }
+
+   public GameState(){
         AppManager.getInstance().m_gameState = this; //관리하고 있는 AppManager에서 게임 상황을 현재 상황으로 하라.
     }
 }

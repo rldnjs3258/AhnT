@@ -3,20 +3,20 @@ package com.example.Game;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.example.R;
 import com.example.gameframework.AppManager;
 import com.example.gameframework.GraphicObject;
+import com.example.gameframework.R;
 
 public class BackGround extends GraphicObject{
     //시차 스크롤링 이용
     //첫번째 레이어
-    static final float SCROLL_SPEED = 0.2f;
+    static final float SCROLL_SPEED = 1f;
     private float m_scroll = -2000 + 480;
 
     Bitmap m_layer2;
 
     //두번째 레이어
-    static final float SCROLL_SPEED_2 = 0.2f;
+    static final float SCROLL_SPEED_2 = 1f;
     private float m_scroll_2 = -2000 + 480;
 
     //backtype에 따라 배경 변하게 해줌.

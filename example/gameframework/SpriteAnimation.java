@@ -30,6 +30,14 @@ public class SpriteAnimation extends GraphicObject{
         m_frameTimer = 0; //초당 프레임
     }
 
+    public int getM_spriteWidth(){
+        return m_spriteWidth;
+    }
+
+    public int getM_spriteHeight(){
+        return m_spriteHeight;
+    }
+
     //데이터의 기본 정보를 설정한다.
     //기본 정보를 설정한 후 GameView에서 좌표값, 프레임만 바꿔서 이용할 수 있다.
     public void initSpriteData(int _width, int _height, int _fps, int iFrame){
