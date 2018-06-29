@@ -3,9 +3,9 @@ package com.example.Game;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.example.R;
 import com.example.gameframework.AppManager;
 import com.example.gameframework.GraphicObject;
-import com.example.gameframework.R;
 
 public class BackGround extends GraphicObject{
     //시차 스크롤링 이용

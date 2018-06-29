@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import com.example.gameframework.AppManager;
 import com.example.gameframework.GraphicObject;
 import com.example.gameframework.IState;
-import com.example.gameframework.R;
+import com.example.R;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -187,7 +187,19 @@ public class GameState implements IState{
                 }
             }
         }
-    }
+
+        //나랑 적이랑
+        for (int i = m_enemylist.size()-1; i>=0; i--) {
+            if (CollisionManager.CheckBoxToBox(
+                    m_player.m_BoundBox,
+                    m_enemylist.get(i).m_BoundBox)) {
+                m_enemylist.remove(i);
+                m_player.destroyPlayer();
+                if (m_player.getLife() <= 0) ; //System.exit(0);
+                return;
+            }
+        }
+        }
 
     public GameState(){
         AppManager.getInstance().m_gameState = this; //관리하고 있는 AppManager에서 게임 상황을 현재 상황으로 하라.

@@ -1,7 +1,7 @@
 package com.example.Game;
 
 import com.example.gameframework.AppManager;
-import com.example.gameframework.R;
+import com.example.R;
 
 //플레이어의 미사일이다.
 public class Missile_Player extends Missile{
@@ -16,7 +16,7 @@ public class Missile_Player extends Missile{
 
         m_BoundBox.left = m_x;
         m_BoundBox.top = m_y;
-        m_BoundBox.right = m_x + 43;
-        m_BoundBox.bottom = m_y + 43;
+        m_BoundBox.right = m_x + this.m_bitmap.getWidth();
+        m_BoundBox.bottom = m_y + this.m_bitmap.getHeight();
     }
 }

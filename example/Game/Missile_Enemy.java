@@ -1,7 +1,7 @@
 package com.example.Game;
 
 import com.example.gameframework.AppManager;
-import com.example.gameframework.R;
+import com.example.R;
 
 //적의 미사일이다.
 public class Missile_Enemy extends Missile{
@@ -13,6 +13,5 @@ public class Missile_Enemy extends Missile{
         m_y += 4; //미사일이 아래로 발사되는 효과
         if (m_y >1350) state = STATE_OUT;
 
-        m_BoundBox.set(m_x, m_y, m_x+43, m_y+43);
-    }
+        m_BoundBox.set(m_x, m_y, m_x+m_bitmap.getWidth(), m_y+m_bitmap.getWidth());    }
 }

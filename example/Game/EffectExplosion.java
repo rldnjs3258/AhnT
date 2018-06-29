@@ -1,7 +1,7 @@
 package com.example.Game;
 
+import com.example.R;
 import com.example.gameframework.AppManager;
-import com.example.gameframework.R;
 import com.example.gameframework.SpriteAnimation;
 
 //게임이 폭발하는 이미지 클래스다.
