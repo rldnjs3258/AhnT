@@ -1,0 +1,11 @@
+GameActivity에 change 함수 추가 
+
+EndActivity class 추가 
+
+DBHelper class 추가 
+
+endstate.xml 추가 
+
+
+xml 내컴퓨터에서 랜더오류생겨서 나중에 배치만변경해야함. 
+replay버튼까지 만들어놨음
